@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10071f">
+<title>SYVORA AI 2.1 — Founder Edition</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Sacramento&display=swap');
+:root{--bg:#090511;--panel:rgba(35,18,62,.62);--panel2:rgba(50,24,84,.55);--line:rgba(190,119,255,.32);--purple:#a855f7;--pink:#f08bff;--text:#f8efff;--muted:#c8b5dd;--cyan:#8edbff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 78% 12%,#32105c 0,transparent 32%),radial-gradient(ellipse at 45% 80%,#1c0b38 0,transparent 40%),var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.55;background-image:radial-gradient(2px 2px at 10% 20%,#fff,transparent),radial-gradient(1px 1px at 35% 75%,#d9a4ff,transparent),radial-gradient(2px 2px at 75% 35%,#fff,transparent),radial-gradient(1px 1px at 90% 80%,#d9a4ff,transparent);background-size:220px 190px;z-index:-1}
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh;max-width:1800px;margin:auto}
+.sidebar{padding:25px 16px 18px;border-right:1px solid var(--line);background:rgba(20,9,39,.78);backdrop-filter:blur(22px);display:flex;flex-direction:column;gap:22px;min-height:100vh}
+.brand{text-align:center;padding:8px 4px 16px}.crown{font-size:34px;color:#e7a5ff;text-shadow:0 0 20px #b64dff}.brand h1{font:700 30px 'Playfair Display',serif;letter-spacing:2px;margin:3px 0;color:#e8a0ff;text-shadow:0 0 18px #9e3dff}.tag{font:italic 16px 'Playfair Display',serif;color:#d7c2ed}
+.nav{display:grid;gap:7px}.nav button,.life-link{border:1px solid transparent;background:transparent;color:#e8dcf4;padding:12px 13px;border-radius:14px;text-align:left;display:flex;align-items:center;gap:13px;font:500 14px 'DM Sans';cursor:pointer;transition:.2s}.nav button:hover,.nav button.active{background:linear-gradient(110deg,rgba(128,51,218,.48),rgba(72,34,115,.3));border-color:#a65af0;box-shadow:0 0 22px #7a2ac444}.nav .ico{font-size:19px;width:23px;text-align:center}.side-bottom{margin-top:auto}.life-link{border-color:#a75ce9;background:linear-gradient(130deg,#48216e88,#23113eaa);padding:15px}.life-link b{display:block}.life-link small{color:var(--muted)}.encourage{text-align:center;color:#d7a3ff;font:italic 19px 'Sacramento',cursive;padding:16px 0 5px}
+main{padding:22px 34px 20px;min-width:0;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px}.pill{border:1px solid var(--line);border-radius:30px;padding:10px 16px;background:#29144399;color:#f1dfff;display:flex;align-items:center;gap:9px;font-size:14px}.premium{background:linear-gradient(100deg,#812bea,#bd4fff);padding:5px 11px;border-radius:20px;font-size:12px}.top-actions{display:flex;align-items:center;gap:12px}.search{width:min(280px,35vw);border:1px solid var(--line);background:#211137aa;color:white;border-radius:30px;padding:12px 16px;outline:none}.icon-btn,.avatar{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#291443;color:white;font-size:18px;cursor:pointer}.avatar{background:linear-gradient(135deg,#b34dff,#44206e);font-weight:700}
+.page{display:none;flex:1;flex-direction:column;min-height:0}.page.active{display:flex}
+.hero{display:grid;grid-template-columns:minmax(190px,300px) 1fr;align-items:center;gap:20px;min-height:220px;position:relative}.mascot{font-size:140px;text-align:center;filter:drop-shadow(0 0 24px #a742ff88);line-height:1.15}.hero-copy .script{font:48px 'Sacramento',cursive;color:#f0a1ff;margin:0 0 2px}.hero h2{font:700 clamp(27px,3.2vw,43px) 'Playfair Display',serif;line-height:1.18;margin:5px 0 12px}.hero h2 em{color:#ce83ff}.hero p{color:#e3d3f1;font:20px 'Playfair Display',serif;margin:0}
+.composer{display:flex;align-items:center;gap:12px;margin:10px 0 24px;padding:11px 13px 11px 20px;border:1px solid #a65ae9;border-radius:30px;background:rgba(31,14,54,.83);box-shadow:0 0 26px #8c3bd833,inset 0 0 22px #a34aff12}.composer span{font-size:22px;color:#d9a4ff}.composer input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:white;font:16px 'DM Sans'}.composer input::placeholder{color:#c1acd8}.send{border:0;border-radius:50%;height:46px;width:46px;background:linear-gradient(135deg,#c45aff,#7131d4);color:white;font-size:20px;cursor:pointer;box-shadow:0 0 18px #a64dff88}
+.shortcuts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.shortcut,.glass{border:1px solid var(--line);background:linear-gradient(135deg,rgba(83,42,124,.52),rgba(29,15,52,.72));backdrop-filter:blur(18px);border-radius:20px;box-shadow:inset 0 1px 0 #ffffff12,0 12px 35px #0003}.shortcut{padding:18px 17px;cursor:pointer;transition:.22s;text-align:left;color:white;min-height:126px}.shortcut:hover{transform:translateY(-4px);border-color:#d18cff;box-shadow:0 8px 30px #9c4bff33}.shortcut .big{font-size:28px;display:block;margin-bottom:9px}.shortcut b{display:block;font-size:15px;margin-bottom:4px}.shortcut small{color:#cdb9e1}.lower{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;margin-top:18px}.glass{padding:20px}.section-title{font-weight:700;font-size:17px;margin:0 0 18px;display:flex;gap:10px;align-items:center}.study-grid{display:grid;grid-template-columns:145px 1fr;gap:20px;align-items:center}.progress{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#c15bff 0 78%,#51406c 78% 100%);position:relative;margin:auto}.progress:before{content:"";position:absolute;inset:10px;background:#1b1030;border-radius:50%}.progress strong{position:relative;font-size:24px}.goal{font-size:14px;color:#f4eaff;margin-bottom:10px}.task{font-size:13px;color:#d7c7e8;margin:8px 0}.task span{color:#d78aff;margin-right:8px}.exam{border-left:1px solid var(--line);padding-left:22px}.exam-row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff18;padding:10px 0;font-size:14px}.date{background:#602a9b;padding:6px 10px;border-radius:18px;font-size:11px}.quote{font:italic 17px 'Playfair Display',serif;text-align:center;color:#e8cfff;margin:20px 0 0}.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick button{border:1px solid #8d50c4;background:#30184e99;color:#f5eaff;border-radius:14px;padding:13px 10px;cursor:pointer;font:500 13px 'DM Sans'}.quick button:hover{background:#52237a}.footer{margin-top:18px;border:1px solid var(--line);background:#29144399;border-radius:18px;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;color:#d9c6eb;font-size:12px}.online{color:#d7a0ff}
+.chat-wrap{display:flex;flex-direction:column;flex:1;min-height:0;max-width:900px;margin:0 auto;width:100%}
+.chat-messages{flex:1;overflow-y:auto;padding:10px 4px 20px;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:88%;padding:14px 18px;border-radius:18px;font-size:15px;line-height:1.55;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,#812bea,#bd4fff);color:white;border-bottom-right-radius:6px}
+.msg.ai{align-self:flex-start;background:rgba(50,24,84,.7);border:1px solid var(--line);border-bottom-left-radius:6px}
+.msg.ai .ai-name{font-size:12px;font-weight:600;color:#d9a4ff;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.msg b{color:#f0c0ff}
+.typing{align-self:flex-start;padding:12px 18px;background:rgba(50,24,84,.5);border:1px solid var(--line);border-radius:18px;border-bottom-left-radius:6px;color:var(--muted);font-size:14px;display:none}
+.typing.show{display:block}
+.typing span{display:inline-block;width:6px;height:6px;background:#c9a0ff;border-radius:50%;margin:0 2px;animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.chat-composer{display:flex;align-items:flex-end;gap:12px;padding:12px 14px;border:1px solid #a65ae9;border-radius:24px;background:rgba(31,14,54,.9);box-shadow:0 0 26px #8c3bd833;margin-top:auto}
+.chat-composer textarea{flex:1;min-height:44px;max-height:140px;background:transparent;border:0;outline:0;color:white;font:15px 'DM Sans';resize:none;padding:10px 4px;line-height:1.4}
+.chat-composer textarea::placeholder{color:#c1acd8}
+.chat-send{border:0;border-radius:50%;height:46px;width:46px;background:linear-gradient(135deg,#c45aff,#7131d4);color:white;font-size:18px;cursor:pointer;flex-shrink:0;box-shadow:0 0 18px #a64dff88}
+.suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(50,24,84,.5);color:#e0d0f5;font-size:13px;cursor:pointer;transition:.15s}
+.chip:hover{border-color:#d18cff;background:rgba(128,51,218,.25);color:white}
+.toast{position:fixed;bottom:24px;right:24px;background:#321950;border:1px solid #c27aff;border-radius:14px;padding:13px 18px;box-shadow:0 0 25px #a74cff55;opacity:0;transform:translateY(12px);transition:.25s;pointer-events:none;z-index:100}.toast.show{opacity:1;transform:translateY(0)}
+
+/* Revision Radar */
+.radar-header{margin-bottom:22px}
+.radar-header h2{font:700 28px 'Playfair Display',serif;margin:0 0 6px;color:#e8a0ff}
+.radar-header p{color:var(--muted);margin:0;font-size:15px}
+.radar-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.radar-stat{background:linear-gradient(135deg,rgba(83,42,124,.52),rgba(29,15,52,.72));border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center}
+.radar-stat strong{display:block;font-size:22px;color:#d9a4ff;margin-bottom:4px}
+.radar-stat span{font-size:12px;color:var(--muted)}
+.topic-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.topic-card{background:linear-gradient(135deg,rgba(83,42,124,.45),rgba(29,15,52,.7));border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;transition:.2s}
+.topic-card:hover{border-color:#d18cff}
+.topic-status{font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.status-soon{background:rgba(245,158,11,.2);color:#fbbf24}
+.status-practice{background:rgba(239,68,68,.18);color:#f87171}
+.status-good{background:rgba(52,211,153,.15);color:#34d399}
+.topic-info{flex:1;min-width:0}
+.topic-name{font-weight:600;font-size:15px;margin-bottom:3px}
+.topic-meta{font-size:12px;color:var(--muted)}
+.topic-actions{display:flex;gap:6px;flex-shrink:0}
+.topic-actions button{padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(50,24,84,.6);color:#e8dcf4;font-size:12px;cursor:pointer;transition:.15s}
+.topic-actions button:hover{border-color:#d18cff;background:rgba(128,51,218,.3)}
+.topic-actions .primary{background:linear-gradient(135deg,#812bea,#bd4fff);border-color:transparent;color:white}
+.add-topic-form{background:linear-gradient(135deg,rgba(83,42,124,.45),rgba(29,15,52,.7));border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:8px}
+.add-topic-form h3{font-size:14px;margin:0 0 12px;color:#d9a4ff}
+.form-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.form-row input,.form-row select{flex:1;min-width:120px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#211137;color:white;font:14px 'DM Sans';outline:none}
+.form-row input:focus,.form-row select:focus{border-color:#a65af0}
+.form-actions{display:flex;gap:8px}
+.btn-add{padding:10px 18px;border-radius:12px;border:0;background:linear-gradient(135deg,#812bea,#bd4fff);color:white;font:600 13px 'DM Sans';cursor:pointer}
+.btn-ghost{padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--muted);font:500 13px 'DM Sans';cursor:pointer}.btn-add:disabled,.btn-ghost:disabled{opacity:.55;cursor:wait}
+.insight-box{background:linear-gradient(135deg,rgba(128,51,218,.25),rgba(72,34,115,.2));border:1px solid rgba(168,85,247,.4);border-radius:16px;padding:16px 18px;margin-bottom:20px}
+.insight-box .label{font-size:11px;font-weight:600;color:#d9a4ff;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.insight-box p{margin:0;font-size:14px;line-height:1.5;color:#e8dcf4}
+
+@media(max-width:1050px){.app{grid-template-columns:210px 1fr}.sidebar{padding-inline:12px}.shortcuts{grid-template-columns:repeat(2,1fr)}.lower{grid-template-columns:1fr}.hero{grid-template-columns:180px 1fr}.mascot{font-size:110px}}
+@media(max-width:700px){.app{display:block}.sidebar{min-height:0;height:auto;position:sticky;top:0;z-index:5;padding:9px 12px;flex-direction:row;align-items:center;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0;text-align:left;display:flex;align-items:center;gap:7px}.brand .crown,.tag{display:none}.brand h1{font-size:19px;margin:0}.nav{display:flex;overflow-x:auto;gap:3px;margin-left:auto}.nav button{padding:9px;border-radius:10px;white-space:nowrap}.nav button .ico{width:auto}.nav button span:last-child{display:none}.side-bottom{display:none}main{padding:15px 14px}.topbar{margin-bottom:15px}.pill{font-size:12px;padding:8px 11px}.premium{display:none}.search{width:42vw;padding:10px 12px}.hero{grid-template-columns:1fr;min-height:0;text-align:center;gap:0}.mascot{font-size:75px;order:2}.hero-copy .script{font-size:38px}.hero h2{font-size:28px}.hero p{font-size:16px}.composer{margin-top:18px}.shortcuts{gap:9px}.shortcut{padding:14px;min-height:112px}.lower{margin-top:12px}.glass{padding:15px}.study-grid{grid-template-columns:105px 1fr;gap:10px}.progress{width:94px;height:94px}.progress strong{font-size:19px}.exam{border-left:0;border-top:1px solid var(--line);padding:14px 0 0;margin-top:12px}.footer{gap:8px;flex-wrap:wrap}.top-actions{gap:6px}.icon-btn{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="crown">♕</div><div><h1>SYVORA ✦</h1><div class="tag">Dream · Learn · Achieve ✨</div></div></div>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-page="home"><span class="ico">⌂</span><span>Home</span></button>
+    <button data-page="chat"><span class="ico">▤</span><span>AI Tutor</span></button>
+    <button data-page="radar"><span class="ico">◎</span><span>Revision Radar</span></button>
+    <button data-page="history"><span class="ico">◷</span><span>Chat History</span></button>
+    <button data-page="library"><span class="ico">▱</span><span>My Library</span></button>
+    <button data-page="tools"><span class="ico">▦</span><span>Study Tools</span></button>
+    <button data-page="favorites"><span class="ico">☆</span><span>Favorites</span></button>
+    <button data-page="settings"><span class="ico">⚙</span><span>Settings</span></button>
+  </nav>
+  <div class="side-bottom">
+    <button class="life-link" data-page="tools"><span style="font-size:27px">♛</span><span><b>SYVORA Life</b><small>Your Student Command Centre</small></span></button>
+    <div class="encourage">You got this! ♡<br><small>— SYVORA ✦</small></div>
+  </div>
+</aside>
+<main>
+  <header class="topbar">
+    <div class="pill">✦ <b>SYVORA AI 2.1</b> <span class="premium">✦ Premium</span></div>
+    <div class="top-actions">
+      <input class="search" id="search" placeholder="⌕  Search anything..." aria-label="Search">
+      <button class="icon-btn" title="Notifications">♧</button>
+      <button class="avatar" title="Profile">A</button>
+    </div>
+  </header>
+
+  <section class="page active" id="page-home">
+    <div id="connectBanner" style="display:block;margin-bottom:16px;padding:14px 16px;border-radius:16px;border:1px solid rgba(168,85,247,.5);background:linear-gradient(135deg,rgba(128,51,218,.35),rgba(72,34,115,.4));">
+      <div style="font-weight:600;margin-bottom:6px;color:#f0c0ff">⚡ Connect to SYVORA AI</div>
+      <p style="margin:0 0 10px;font-size:13px;color:#e0d0f5;line-height:1.45">Connect this device to your SYVORA server once. No Gemini API key is needed on this phone.</p>
+      <button type="button" class="btn-add" onclick="showPage('settings')" style="padding:10px 14px">Set up SYVORA connection</button>
+      <p id="homeKeyStatus" style="margin:8px 0 0;font-size:12px;color:var(--muted)">Connection not configured on this device yet.</p>
+    </div>
+    <div class="hero">
+      <div class="mascot">🌙🐈‍⬛</div>
+      <div class="hero-copy">
+        <p class="script">♡ Hey there! ♡</p>
+        <h2>Your intelligence,<br><em>amplified.</em></h2>
+        <p>What shall we explore today? ✨</p>
+      </div>
+    </div>
+    <form class="composer" id="homeForm">
+      <span>✦</span>
+      <input id="homePrompt" placeholder="Ask SYVORA anything..." autocomplete="off">
+      <button class="send" type="submit">➤</button>
+    </form>
+    <section class="shortcuts">
+      <button class="shortcut" data-prompt="Explain the Pythagorean theorem simply with an example"><span class="big">📖</span><b>Study Assistant</b><small>Learn smarter →</small></button>
+      <button class="shortcut" data-prompt="Summarize the process of photosynthesis in simple points"><span class="big">▤</span><b>Smart Summaries</b><small>Get the gist →</small></button>
+      <button class="shortcut" data-prompt="Make me a short quiz on quadratic equations with answers"><span class="big">🧠</span><b>Quiz Generator</b><small>Test your knowledge →</small></button>
+      <button class="shortcut" data-prompt="Explain cellular respiration step by step for high school"><span class="big">💡</span><b>Explain Concepts</b><small>In simple words →</small></button>
+    </section>
+    <section class="lower">
+      <div class="glass">
+        <h3 class="section-title">▥ Your Study Journey ↗</h3>
+        <div class="study-grid">
+          <div class="progress"><strong>78%</strong></div>
+          <div>
+            <div class="goal">Goal: Make progress, one step at a time ✨</div>
+            <div class="task"><span>●</span> Build your study streak</div>
+            <div class="task"><span>●</span> Review your saved notes</div>
+            <div class="task"><span>●</span> Celebrate small wins</div>
+          </div>
+        </div>
+        <div class="exam">
+          <h3 class="section-title" style="margin:14px 0 4px">▦ Upcoming Exams</h3>
+          <div class="exam-row"><span>My next study milestone</span><span class="date">Set your date</span></div>
+          <p class="quote">“Big dreams, brighter mind.” ♡</p>
+        </div>
+      </div>
+      <div class="glass">
+        <h3 class="section-title">ϟ Quick Access</h3>
+        <div class="quick">
+          <button data-page="chat">📚 AI Tutor</button>
+          <button data-page="tools">▤ Study Tools</button>
+          <button data-page="library">🔧 My Library</button>
+          <button data-page="settings">⚙ Settings</button>
+        </div>
+        <p style="color:var(--muted);font-size:13px;line-height:1.6;margin:19px 2px 0">Your workspace for learning, creating and discovering.</p>
+      </div>
+    </section>
+    <footer class="footer"><span>✧ SYVORA is always here to help you create and learn ♡</span><span class="online">● AI ready</span><span>Founded &amp; Created by <b>Aarushi Purbhe</b> · © 2026</span></footer>
+  </section>
+
+  <section class="page" id="page-chat">
+    <div class="chat-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+        <div><h2 style="font:700 25px 'Playfair Display',serif;margin:0;color:#e8a0ff">SYVORA AI Tutor</h2><p style="margin:4px 0 0;color:var(--muted);font-size:12px">Your learning companion ✦</p></div>
+        <button class="btn-add" id="newChatBtn" type="button">＋ New chat</button>
+      </div>
+      <div class="suggestions">
+        <button class="chip" data-q="Explain the Pythagorean theorem with an example">Pythagorean theorem</button>
+        <button class="chip" data-q="What is photosynthesis? Keep it simple">Photosynthesis</button>
+        <button class="chip" data-q="How do I write a strong essay introduction?">Essay tips</button>
+        <button class="chip" data-q="Give me high-impact study tips for exams">Study tips</button>
+        <button class="chip" data-q="Explain quadratic formula step by step">Quadratic formula</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="msg ai">
+          <div class="ai-name">✦ SYVORA</div>
+          Hey! I’m your study companion. Ask me anything — Math, Science, English, History, study strategies, or just “help me understand this topic.”
+          <br><br>What would you like to learn today?
+        </div>
+      </div>
+      <div class="typing" id="typing"><span></span><span></span><span></span> Thinking...</div>
+      <form class="chat-composer" id="chatForm">
+        <textarea id="chatInput" placeholder="Ask SYVORA anything..." rows="1"></textarea>
+        <button class="chat-send" type="submit">➤</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- REVISION RADAR -->
+  <section class="page" id="page-radar">
+    <div style="max-width:820px;width:100%;margin:0 auto">
+      <div class="radar-header">
+        <h2>◎ Revision Radar</h2>
+        <p>Your next learning checkpoints — know what to revise and when.</p>
+      </div>
+
+      <div class="radar-stats">
+        <div class="radar-stat"><strong id="r-soon">0</strong><span>Revise soon</span></div>
+        <div class="radar-stat"><strong id="r-practice">0</strong><span>Needs practice</span></div>
+        <div class="radar-stat"><strong id="r-good">0</strong><span>Looking good</span></div>
+      </div>
+
+      <div class="insight-box">
+        <div class="label">Radar Insight</div>
+        <p id="radarInsight">Add topics you’ve studied and Radar will tell you what needs attention next.</p>
+      </div>
+
+      <div class="topic-list" id="topicList"></div>
+
+      <div class="add-topic-form">
+        <h3>＋ Add a topic to track</h3>
+        <div class="form-row">
+          <input type="text" id="topicSubject" placeholder="Subject (e.g. Mathematics)">
+          <input type="text" id="topicName" placeholder="Topic (e.g. Quadrilaterals)">
+        </div>
+        <div class="form-row">
+          <select id="topicStatus">
+            <option value="soon">Revise soon</option>
+            <option value="practice">Needs practice</option>
+            <option value="good">Looking good</option>
+          </select>
+          <select id="topicDays">
+            <option value="0">Reviewed today</option>
+            <option value="1">1 day ago</option>
+            <option value="3" selected>3 days ago</option>
+            <option value="5">5 days ago</option>
+            <option value="7">1 week ago</option>
+            <option value="14">2 weeks ago</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button class="btn-add" id="addTopicBtn">Add to Radar</button>
+          <button class="btn-ghost" id="clearTopicForm">Clear</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-history">
+    <div style="max-width:820px;width:100%;margin:0 auto">
+      <div class="radar-header"><h2>◷ Chat History</h2><p>Your recent SYVORA conversations, saved on this device.</p></div>
+      <div id="historyList" class="topic-list"></div>
+      <p id="historyEmpty" style="display:none;color:var(--muted);text-align:center;padding:24px">No saved conversations yet. Start a chat with SYVORA to see it here.</p>
+    </div>
+  </section>
+  <section class="page" id="page-library"><div class="glass" style="max-width:600px;margin:40px auto;text-align:center"><h2 style="font-family:'Playfair Display',serif">My Library</h2><p style="color:var(--muted)">Saved notes, PDFs and study materials will live here.</p></div></section>
+  <section class="page" id="page-tools"><div class="glass" style="max-width:600px;margin:40px auto;text-align:center"><h2 style="font-family:'Playfair Display',serif">Study Tools</h2><p style="color:var(--muted)">Flashcards, timers, quizzes and more coming soon.</p></div></section>
+  <section class="page" id="page-favorites"><div class="glass" style="max-width:600px;margin:40px auto;text-align:center"><h2 style="font-family:'Playfair Display',serif">Favorites</h2><p style="color:var(--muted)">Star your best explanations to find them quickly.</p></div></section>
+  <section class="page" id="page-settings">
+    <div style="max-width:560px;width:100%;margin:0 auto">
+      <h2 style="font-family:'Playfair Display',serif;color:#e8a0ff;margin:0 0 8px">⚙ Settings</h2>
+      <p style="color:var(--muted);margin:0 0 22px;font-size:14px">Connect this device to your SYVORA AI securely hosted on Netlify.</p>
+      <div class="glass" style="margin-bottom:16px">
+        <h3 style="margin:0 0 6px;font-size:15px;color:#d9a4ff">SYVORA secure connection</h3>
+        <p style="color:var(--muted);font-size:13px;margin:0 0 14px;line-height:1.5">Your Gemini API key stays in Netlify’s private environment settings. Enter your SYVORA access code once on each device. Never paste your Gemini API key here.</p>
+        <p style="color:var(--muted);font-size:12px;margin:0 0 12px">Server: this SYVORA Netlify website (detected automatically)</p>
+        <label for="accessCodeInput" style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">SYVORA access code (not your Gemini key)</label>
+        <input type="password" id="accessCodeInput" placeholder="Enter your SYVORA access code" autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#211137;color:white;font:14px 'DM Sans';outline:none;margin-bottom:12px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-add" id="saveConnectionBtn" type="button">Save connection</button>
+          <button class="btn-ghost" id="testConnectionBtn" type="button">Test connection</button>
+          <button class="btn-ghost" id="clearConnectionBtn" type="button">Disconnect</button>
+        </div>
+        <p id="keyStatus" style="margin:12px 0 0;font-size:13px;color:var(--muted)"></p>
+      </div>
+      <div class="glass">
+        <h3 style="margin:0 0 6px;font-size:15px;color:#d9a4ff">How it works</h3>
+        <p style="color:var(--muted);font-size:13px;line-height:1.6;margin:0">• Gemini API key is stored only in Netlify’s private environment settings<br>• Each device connects using your SYVORA access code<br>• Chat history remains saved locally on each device<br>• Share your access code only with people you trust; requests use your server's Gemini quota</p>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const toastEl=document.getElementById('toast');let toastTimer;
+
+function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastEl.classList.remove('show'),2600)}
+
+
+document.querySelectorAll('.nav button, [data-page]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const page=btn.dataset.page;if(!page)return;
+    showPage(page);
+  });
+});
+
+// ========== REVISION RADAR ==========
+let radarTopics = JSON.parse(localStorage.getItem('syvora-radar') || 'null');
+if (!radarTopics) {
+  radarTopics = [
+    { id: '1', subject: 'Mathematics', topic: 'Quadrilaterals', status: 'soon', daysAgo: 3 },
+    { id: '2', subject: 'Chemistry', topic: 'Atomic Models', status: 'practice', daysAgo: 5 },
+    { id: '3', subject: 'Biology', topic: 'Plant Classification', status: 'good', daysAgo: 1 }
+  ];
+  localStorage.setItem('syvora-radar', JSON.stringify(radarTopics));
+}
+
+function saveRadar() {
+  localStorage.setItem('syvora-radar', JSON.stringify(radarTopics));
+}
+
+function daysLabel(d) {
+  if (d === 0) return 'Reviewed today';
+  if (d === 1) return 'Last reviewed: 1 day ago';
+  if (d < 7) return `Last reviewed: ${d} days ago`;
+  if (d < 14) return 'Last reviewed: about a week ago';
+  return 'Last reviewed: 2+ weeks ago';
+}
+
+function statusLabel(s) {
+  if (s === 'soon') return 'Revise soon';
+  if (s === 'practice') return 'Needs practice';
+  return 'Looking good';
+}
+
+function renderRadar() {
+  const soon = radarTopics.filter(t => t.status === 'soon').length;
+  const practice = radarTopics.filter(t => t.status === 'practice').length;
+  const good = radarTopics.filter(t => t.status === 'good').length;
+  document.getElementById('r-soon').textContent = soon;
+  document.getElementById('r-practice').textContent = practice;
+  document.getElementById('r-good').textContent = good;
+
+  // Insight
+  const insight = document.getElementById('radarInsight');
+  if (radarTopics.length === 0) {
+    insight.textContent = 'Add topics you’ve studied and Radar will tell you what needs attention next.';
+  } else if (practice > 0) {
+    const t = radarTopics.find(x => x.status === 'practice');
+    insight.innerHTML = `<b>${t.topic}</b> needs practice. Quiz accuracy or time since last review suggests another look.`;
+  } else if (soon > 0) {
+    const t = radarTopics.find(x => x.status === 'soon');
+    insight.innerHTML = `<b>${t.topic}</b> is due for revision soon. A short review will keep it strong.`;
+  } else {
+    insight.textContent = 'Looking solid! All tracked topics are in good shape. Keep the streak going.';
+  }
+
+  const list = document.getElementById('topicList');
+  list.innerHTML = '';
+
+  if (radarTopics.length === 0) {
+    list.innerHTML = `<p style="color:var(--muted);text-align:center;padding:20px">No topics yet. Add one below.</p>`;
+    return;
+  }
+
+  // Sort: practice → soon → good
+  const order = { practice: 0, soon: 1, good: 2 };
+  const sorted = [...radarTopics].sort((a, b) => order[a.status] - order[b.status] || b.daysAgo - a.daysAgo);
+
+  sorted.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'topic-card';
+    card.innerHTML = `
+      <div class="topic-info">
+        <div class="topic-name">${escapeHtml(t.topic)}</div>
+        <div class="topic-meta">${escapeHtml(t.subject)} · ${daysLabel(t.daysAgo)}</div>
+      </div>
+      <span class="topic-status status-${t.status}">${statusLabel(t.status)}</span>
+      <div class="topic-actions">
+        <button class="primary" data-action="revise" data-id="${t.id}">Revise</button>
+        <button data-action="mark-good" data-id="${t.id}">✓ Got it</button>
+        <button data-action="delete" data-id="${t.id}">✕</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  list.querySelectorAll('button[data-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+      const topic = radarTopics.find(x => x.id === id);
+      if (!topic) return;
+
+      if (action === 'delete') {
+        radarTopics = radarTopics.filter(x => x.id !== id);
+        saveRadar();
+        renderRadar();
+      } else if (action === 'mark-good') {
+        topic.status = 'good';
+        topic.daysAgo = 0;
+        saveRadar();
+        renderRadar();
+        toast('Marked as looking good ✨');
+      } else if (action === 'revise') {
+        // Open AI Tutor with revision prompt
+        document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+        document.querySelector('.nav button[data-page="chat"]').classList.add('active');
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-chat').classList.add('active');
+        const prompt = `Help me revise ${topic.subject} — specifically "${topic.topic}". Give me a clear short summary of the key points and 3 quick check questions.`;
+        setTimeout(() => sendMessage(prompt), 200);
+        // Also mark as reviewed
+        topic.daysAgo = 0;
+        if (topic.status === 'practice') topic.status = 'soon';
+        saveRadar();
+      }
+    });
+  });
+}
+
+function escapeHtml(text) {
+  const d = document.createElement('div');
+  d.textContent = text;
+  return d.innerHTML;
+}
+
+document.getElementById('addTopicBtn').addEventListener('click', () => {
+  const subject = document.getElementById('topicSubject').value.trim();
+  const topic = document.getElementById('topicName').value.trim();
+  const status = document.getElementById('topicStatus').value;
+  const daysAgo = parseInt(document.getElementById('topicDays').value) || 0;
+  if (!subject || !topic) {
+    toast('Please enter subject and topic');
+    return;
+  }
+  radarTopics.push({
+    id: Date.now().toString(),
+    subject,
+    topic,
+    status,
+    daysAgo
+  });
+  saveRadar();
+  document.getElementById('topicSubject').value = '';
+  document.getElementById('topicName').value = '';
+  document.getElementById('topicStatus').value = 'soon';
+  document.getElementById('topicDays').value = '3';
+  renderRadar();
+  toast('Topic added to Radar ◎');
+});
+
+document.getElementById('clearTopicForm').addEventListener('click', () => {
+  document.getElementById('topicSubject').value = '';
+  document.getElementById('topicName').value = '';
+  document.getElementById('topicStatus').value = 'soon';
+  document.getElementById('topicDays').value = '3';
+});
+
+function getAIResponse(question){
+  const q = question.toLowerCase().trim();
+
+  // Greetings
+  if (/^(hi|hello|hey|yo|sup|good morning|good evening|hola)\b/.test(q) || q === 'hi' || q === 'hey')
+    return `Hey! ✨ Ready to learn something today?<br><br>Ask me to <b>explain</b> any topic, <b>summarize</b> it, make a <b>quiz</b>, or give <b>study tips</b>. Math, Science, English, History — I'm here.<br><br>What are we working on?`;
+
+  if (q.includes('thank') || q.includes('thanks') || q.includes('thx'))
+    return `You're welcome! 💜 Keep going — consistency beats intensity. Ask me anything else whenever you're ready.`;
+
+  // ===== MATH =====
+  if (q.includes('pythagorean') || (q.includes('hypotenuse') && q.includes('triangle')))
+    return `The <b>Pythagorean theorem</b> (right-angled triangles):<br><br><b>a² + b² = c²</b><br><br>• <b>c</b> = hypotenuse (longest side)<br>• <b>a</b> & <b>b</b> = other two sides<br><br><b>Example:</b> 3 and 4 → √(9+16)=√25=<b>5</b><br><br>Want a practice problem?`;
+
+  if (q.includes('quadratic') || (q.includes('formula') && (q.includes('equation') || q.includes('root'))))
+    return `The <b>Quadratic Formula</b> for ax² + bx + c = 0:<br><br><b>x = [-b ± √(b² − 4ac)] / 2a</b><br><br>1. Find a, b, c<br>2. Discriminant D = b² − 4ac<br>3. D>0 → 2 real roots · D=0 → 1 root · D<0 → no real roots<br><br>Paste an equation and I'll solve it with you.`;
+
+  if (q.includes('linear equation') || q.includes('solve for x') || (q.includes('algebra') && q.includes('solve')))
+    return `For linear equations (like 2x + 5 = 13):<br><br>1. Move constants to one side<br>2. Move the coefficient of x<br>3. Divide to isolate x<br>4. Check by substituting back<br><br>Send me the exact equation and I'll walk through every step.`;
+
+  if (q.includes('trigonometry') || q.includes('sin') || q.includes('cos') || q.includes('tan') || q.includes('sine') || q.includes('cosine'))
+    return `Trig basics (right triangle):<br><br>• <b>sin θ</b> = opposite / hypotenuse<br>• <b>cos θ</b> = adjacent / hypotenuse<br>• <b>tan θ</b> = opposite / adjacent<br><br>Remember: <b>SOH CAH TOA</b><br><br>Want ratios for 30°, 45°, 60° or a worked example?`;
+
+  if (q.includes('fraction') || q.includes('percentage') || q.includes('percent'))
+    return `Quick tips:<br><br>• Fraction → decimal: divide numerator by denominator<br>• Decimal → %: multiply by 100<br>• % → fraction: put over 100 and simplify<br><br>Give me a specific problem and I'll solve it step by step.`;
+
+  if (q.includes('area') || q.includes('perimeter') || q.includes('volume') || q.includes('circle') || q.includes('triangle') || q.includes('rectangle'))
+    return `Common formulas:<br><br>• Rectangle area = l × w · Perimeter = 2(l+w)<br>• Triangle area = ½ × base × height<br>• Circle area = πr² · Circumference = 2πr<br>• Cube volume = side³<br><br>Tell me the exact shape and numbers for a full solution.`;
+
+  // ===== SCIENCE =====
+  if (q.includes('photosynthesis'))
+    return `🌱 <b>Photosynthesis</b> — plants make food with light.<br><br><b>Word:</b> Carbon dioxide + Water + Light → Glucose + Oxygen<br><b>Chemical:</b> 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂<br><br>Happens in <b>chloroplasts</b>. Want light vs dark reactions?`;
+
+  if (q.includes('respiration') || q.includes('cellular respiration') || q.includes('atp'))
+    return `🔬 <b>Cellular respiration</b> releases energy from glucose.<br><br>C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + <b>ATP</b><br><br>Stages: Glycolysis → Krebs cycle → Electron transport chain<br><br>Want any stage explained simply?`;
+
+  if (q.includes('mitosis') || q.includes('meiosis') || q.includes('cell division'))
+    return `🔬 <b>Mitosis</b> = growth & repair → 2 identical cells<br><b>Meiosis</b> = sex cells → 4 unique cells (half chromosomes)<br><br>Want the stages (prophase, metaphase…) listed?`;
+
+  if (q.includes('isotope'))
+    return `<b>Isotopes</b> are atoms of the <b>same element</b> with the <b>same number of protons</b> but <b>different numbers of neutrons</b>.<br><br>
+    • Same atomic number → same chemical element<br>
+    • Different mass number → different isotopes<br><br>
+    <b>Example:</b> Carbon-12 and Carbon-14<br>
+    Both have 6 protons. C-12 has 6 neutrons; C-14 has 8 neutrons.<br><br>
+    Some isotopes are stable; others are radioactive (used in carbon dating, medicine, etc.).<br><br>
+    Want isotope notation or more examples (hydrogen, uranium…)?`;
+
+  if (q.includes('atom') || q.includes('atomic') || q.includes('electron') || q.includes('proton') || q.includes('neutron') || q.includes('periodic table'))
+    return `Atoms: dense <b>nucleus</b> (protons + neutrons) + electrons in shells.<br><br>Atomic number = protons<br>Mass number = protons + neutrons<br><br><b>Isotopes</b> = same protons, different neutrons.<br><br>Models: Dalton → Thomson → Rutherford → Bohr → modern cloud<br><br>Which part do you need more on?`;
+
+  if (q.includes('force') || q.includes('newton') || q.includes('gravity') || q.includes('motion') || q.includes('velocity') || q.includes('acceleration'))
+    return `Physics quick hits:<br><br>• <b>Newton 1</b>: object stays still or moves uniformly unless a force acts<br>• <b>Newton 2</b>: F = ma<br>• <b>Newton 3</b>: every action has equal & opposite reaction<br>• Gravity pulls toward Earth (≈ 9.8 m/s²)<br><br>Ask about a specific law or problem!`;
+
+  if (q.includes('acid') || q.includes('base') || q.includes('ph') || q.includes('alkali'))
+    return `Acids & bases:<br><br>• Acids → pH < 7 (taste sour, turn litmus red)<br>• Bases → pH > 7 (slippery, turn litmus blue)<br>• Neutral = pH 7 (pure water)<br><br>Want examples or the pH scale explained?`;
+
+  if (q.includes('ecosystem') || q.includes('food chain') || q.includes('producer') || q.includes('consumer'))
+    return `Ecosystem basics:<br><br>• <b>Producers</b> (plants) make food<br>• <b>Consumers</b> eat plants or other animals<br>• <b>Decomposers</b> break down dead matter<br><br>Food chain: energy flows from sun → producers → consumers<br><br>Want a specific example?`;
+
+  // ===== ENGLISH / WRITING =====
+  if (q.includes('essay') || q.includes('introduction') || q.includes('thesis') || q.includes('paragraph') || q.includes('conclusion'))
+    return `✍️ Essay structure that works:<br><br><b>Intro</b>: Hook → context → thesis<br><b>Body</b>: Topic sentence → evidence → explanation (repeat)<br><b>Conclusion</b>: Restate thesis + final thought<br><br>Need a sample intro or help with a specific essay topic?`;
+
+  if (q.includes('grammar') || q.includes('tense') || q.includes('verb') || q.includes('noun') || q.includes('adjective'))
+    return `Grammar help is here. Tell me the exact rule or sentence you're stuck on (tenses, subject-verb agreement, articles, etc.) and I'll explain clearly with examples.`;
+
+  if (q.includes('poem') || q.includes('poetry') || q.includes('metaphor') || q.includes('simile') || q.includes('literary'))
+    return `Literary devices quick guide:<br><br>• <b>Simile</b>: comparison using like/as<br>• <b>Metaphor</b>: direct comparison<br>• <b>Personification</b>: giving human traits to non-human things<br>• <b>Alliteration</b>: repeated starting sounds<br><br>Want analysis of a specific poem or more devices?`;
+
+  // ===== HISTORY / GENERAL =====
+  if (q.includes('world war') || q.includes('ww1') || q.includes('ww2') || q.includes('hitler') || q.includes('nazi'))
+    return `I can help with World War topics. Tell me what you need: causes, key events, timeline, or a specific battle/person — and I'll give a clear high-school level summary.`;
+
+  if (q.includes('independence') || q.includes('gandhi') || q.includes('colonial') || q.includes('revolution'))
+    return `History help ready. Tell me the country/period (e.g. Indian independence, American Revolution, French Revolution) and whether you want causes, key figures, or timeline.`;
+
+  // ===== STUDY SKILLS =====
+  if (q.includes('study tip') || q.includes('how to study') || q.includes('exam') || q.includes('finals') || q.includes('revise') || q.includes('revision') || q.includes('memorize') || q.includes('remember'))
+    return `📚 High-impact methods:<br><br>• <b>Active recall</b> — close the book, try to remember<br>• <b>Spaced repetition</b> — review over several days<br>• <b>Pomodoro</b> — 25 min focus + 5 min break<br>• <b>Teach it</b> — explain out loud<br>• Sleep well (memory consolidates at night)<br><br>Want a simple daily schedule?`;
+
+  if (q.includes('motivation') || q.includes('procrastinat') || q.includes('focus') || q.includes('distracted') || q.includes('lazy'))
+    return `You're not lazy — your brain just needs a system.<br><br>Try: 1) Start with only 10 minutes 2) Put phone in another room 3) Write the very next tiny step 4) Reward yourself after<br><br>Want a focus timer method or a daily starter routine?`;
+
+  // ===== QUIZ / SUMMARIZE =====
+  if (q.includes('quiz') || q.includes('test me') || q.includes('questions on') || q.includes('mcq'))
+    return `I can make a quiz! Tell me the <b>exact topic</b> (e.g. “photosynthesis”, “quadratic equations”, “mitosis”) and how many questions you want (3–5 is good).`;
+
+  if (q.includes('summar') || q.includes('key points') || q.includes('in short') || q.includes('briefly') || q.includes('overview'))
+    return `I can summarize clearly. Just name the topic (or paste text) and I’ll give you clean key points. What should I summarize?`;
+
+  // Extract topic after "explain / what is / define..." and give a useful reply
+  const explainMatch = q.match(/(?:explain|what is|what are|define|meaning of|how does|why does|tell me about|help me understand|help me with)\s+(.+)/i);
+  if (explainMatch) {
+    const topic = explainMatch[1].replace(/[?.!]+$/,'').trim();
+    // Re-run core keywords on the extracted topic
+    if (topic.includes('isotope')) {
+      return getAIResponse('isotope');
+    }
+    if (topic.includes('photosynthesis')) return getAIResponse('photosynthesis');
+    if (topic.includes('mitosis') || topic.includes('meiosis')) return getAIResponse('mitosis');
+    if (topic.includes('quadratic')) return getAIResponse('quadratic');
+    if (topic.includes('pythagorean') || topic.includes('hypotenuse')) return getAIResponse('pythagorean');
+    if (topic.includes('atom') || topic.includes('atomic')) return getAIResponse('atom');
+    if (topic.includes('gravity') || topic.includes('force') || topic.includes('newton')) return getAIResponse('gravity');
+    if (topic.includes('respiration')) return getAIResponse('respiration');
+    if (topic.includes('essay')) return getAIResponse('essay');
+
+    return `Here's a clear take on <b>${topic}</b>:<br><br>
+    I don't have a full dedicated article for every topic yet, but I can still help.<br><br>
+    Try one of these for a better answer:<br>
+    • “Key points of ${topic}”<br>
+    • “Simple summary of ${topic}”<br>
+    • “Quiz me on ${topic}”<br><br>
+    Or ask a more specific question about it (definition, example, formula, causes, etc.) and I’ll go deeper.`;
+  }
+
+  // Smarter fallback — try to be useful anyway
+  const words = q.replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(w => w.length > 3);
+  if (words.length >= 1) {
+    return `I want to give you a proper answer on this. From what you wrote, it seems related to: <b>${words.slice(0,4).join(', ')}</b>.<br><br>To help best, try one of these:<br>• “Explain [topic] simply”<br>• “Summarize [topic]”<br>• “Quiz me on [topic]”<br>• “Give study tips for [subject]”<br><br>Or just type the topic name clearly and I’ll take it from there 💪`;
+  }
+
+  return `I'm here to help! Try asking like:<br><br>• “Explain photosynthesis”<br>• “How do I solve quadratic equations?”<br>• “Give me study tips”<br>• “Quiz me on mitosis”<br><br>What do you want to learn right now?`;
+}
+
+const chatMessages=document.getElementById('chatMessages');
+const chatInput=document.getElementById('chatInput');
+const typing=document.getElementById('typing');
+
+function addMessage(text,isUser=false,save=true){
+  const div=document.createElement('div');
+  div.className=`msg ${isUser?'user':'ai'}`;
+  if(isUser) div.textContent=text;
+  else div.innerHTML=`<div class="ai-name">✦ SYVORA</div>${formatAIText(text)}`;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop=chatMessages.scrollHeight;
+  if(save && typeof saveChatMessage === 'function') saveChatMessage(String(text), isUser);
+}
+
+// Keep the model fallback chain short: invalid model IDs cause slow 404 retries.
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
+// SYVORA BRAIN UPGRADE — short-term conversation context for the current chat.
+const chatTurns = [];
+const MAX_CONTEXT_TURNS = 12;
+
+// Local conversation history (stored on this device only).
+const CHAT_HISTORY_KEY = 'syvora-chat-history-v1';
+let chatSessions = [];
+try { chatSessions = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY) || '[]'); }
+catch { chatSessions = []; }
+if (!Array.isArray(chatSessions)) chatSessions = [];
+let currentConversationId = null;
+
+function createChatSession() {
+  const session = { id: Date.now().toString(), title: 'New conversation', updatedAt: Date.now(), messages: [] };
+  chatSessions.unshift(session);
+  currentConversationId = session.id;
+  persistChatSessions();
+  return session;
+}
+function getCurrentChatSession() {
+  return chatSessions.find(x => x.id === currentConversationId) || createChatSession();
+}
+function persistChatSessions() {
+  try {
+    chatSessions = chatSessions.slice(0, 30);
+    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatSessions));
+  } catch (err) { console.warn('Could not save chat history', err); }
+}
+function saveChatMessage(content, isUser) {
+  const session = getCurrentChatSession();
+  session.messages.push({ role: isUser ? 'user' : 'model', text: content, at: Date.now() });
+  if (isUser && session.title === 'New conversation') {
+    session.title = content.replace(/<[^>]*>/g, '').trim().slice(0, 54) || 'New conversation';
+  }
+  session.updatedAt = Date.now();
+  persistChatSessions();
+}
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('historyEmpty');
+  if (!list || !empty) return;
+  list.innerHTML = '';
+  empty.style.display = chatSessions.length ? 'none' : 'block';
+  chatSessions.forEach(session => {
+    const card = document.createElement('div');
+    card.className = 'topic-card';
+    const info = document.createElement('div');
+    info.className = 'topic-info';
+    const title = document.createElement('div');
+    title.className = 'topic-name';
+    title.textContent = session.title || 'Conversation';
+    const meta = document.createElement('div');
+    meta.className = 'topic-meta';
+    meta.textContent = `${session.messages?.length || 0} messages · ${new Date(session.updatedAt || Date.now()).toLocaleString()}`;
+    info.append(title, meta);
+    const actions = document.createElement('div');
+    actions.className = 'topic-actions';
+    const open = document.createElement('button');
+    open.className = 'primary';
+    open.textContent = 'Open';
+    open.addEventListener('click', () => loadChatSession(session.id));
+    const remove = document.createElement('button');
+    remove.textContent = 'Delete';
+    remove.addEventListener('click', () => {
+      chatSessions = chatSessions.filter(x => x.id !== session.id);
+      if (currentConversationId === session.id) currentConversationId = null;
+      persistChatSessions();
+      renderHistory();
+    });
+    actions.append(open, remove);
+    card.append(info, actions);
+    list.appendChild(card);
+  });
+}
+function loadChatSession(id) {
+  const session = chatSessions.find(x => x.id === id);
+  if (!session) return;
+  currentConversationId = id;
+  chatMessages.innerHTML = '';
+  chatTurns.length = 0;
+  (session.messages || []).forEach(message => {
+    const plain = String(message.text || '').replace(/<br\s*\/?\s*>/gi, '\\n').replace(/<[^>]*>/g, '');
+    chatTurns.push({ role: message.role, parts: [{ text: plain }] });
+    addMessage(message.text || '', message.role === 'user', false);
+  });
+  if (chatTurns.length > MAX_CONTEXT_TURNS) chatTurns.splice(0, chatTurns.length - MAX_CONTEXT_TURNS);
+  showPage('chat');
+}
+function showPage(page) {
+  document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === `page-${page}`));
+  if (page === 'radar') renderRadar();
+  if (page === 'history') renderHistory();
+}
+function startNewChat() {
+  createChatSession();
+  chatTurns.length = 0;
+  chatMessages.innerHTML = `<div class="msg ai"><div class="ai-name">✦ SYVORA</div>Hey! I’m your study companion. Ask me anything — Math, Science, English, History, study strategies, or just “help me understand this topic.”<br><br>What would you like to learn today?</div>`;
+  showPage('chat');
+}
+
+
+document.getElementById('newChatBtn')?.addEventListener('click', startNewChat);
+
+const SYSTEM_PROMPT = `You are SYVORA, a thoughtful, highly capable study tutor for school students.
+PERSONALITY
+- Be warm, clear, patient, upbeat and lightly playful when appropriate.
+- Sound natural, not robotic or excessively enthusiastic. Never shame a learner.
+TEACHING
+- Match the explanation to the student's stated grade, knowledge and requested difficulty. If unknown, begin accessibly and adjust from their replies.
+- Explain the idea before using it. Break difficult reasoning into numbered steps and define unfamiliar terms.
+- For maths and science, show the method, working, units where relevant, and a quick check. Do not skip important reasoning.
+- Use examples that make the concept concrete. For exam preparation, highlight key terms and common mistakes.
+- If a student is confused, try a different explanation rather than repeating the same wording.
+INTERACTION
+- Follow the student's requested format and number of questions.
+- When asked to quiz, ask one question at a time unless they request a full quiz. Do not reveal the answer before they attempt it.
+- When checking an answer, say what is correct, identify any error precisely, and explain how to improve it.
+- Use the conversation history. Understand short follow-ups such as "why?", "continue", or "give another one" in context. Do not ask for information already provided.
+ACCURACY
+- Never invent facts, formulas, sources or certainty. If unsure, say what is uncertain and give the safest useful explanation.
+- If a question is ambiguous, ask one concise clarification instead of guessing.
+- Distinguish established facts from examples or assumptions.
+QUICK REVISION
+- For a short revision request, answer directly: a compact summary with only the most important points, then the requested quick questions.
+- Avoid long introductions, extra examples, and unnecessary detail unless the student asks for them.
+FORMAT
+- Keep responses readable and focused. Use short paragraphs, numbered steps and bullets when helpful.
+- Use only simple HTML tags <b>, </b> and <br> when useful. Do not output scripts, styles, or other HTML.
+- Avoid unnecessary introductions and do not dump a full chapter when a focused answer is requested.
+Your purpose is to help students understand, practise, and become more independent thinkers.`;
+
+const SYVORA_SERVER_KEY = 'syvora-server-url-v1';
+const SYVORA_ACCESS_KEY = 'syvora-access-code-v1';
+function getServerUrl() { return window.location.origin; }
+function getChatEndpoint() { return '/.netlify/functions/chat'; }
+function getAccessCode() { return localStorage.getItem(SYVORA_ACCESS_KEY) || ''; }
+
+async function callGemini(userText) {
+  const accessCode = getAccessCode();
+  if (!accessCode || !/^https?:$/.test(window.location.protocol)) return null;
+  const isQuickRevision = /help me revise|quick revision|revise .*specifically/i.test(userText);
+  const recentContext = isQuickRevision ? [] : chatTurns.slice(-8);
+  const contents = [...recentContext, { role: 'user', parts: [{ text: userText }] }];
+  const body = {
+    systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+    contents,
+    generationConfig: { temperature: 0.55, maxOutputTokens: isQuickRevision ? 650 : 1100 }
+  };
+  const res = await fetch(getChatEndpoint(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessCode}` },
+    body: JSON.stringify(body)
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || `SYVORA server error (${res.status})`);
+  const reply = data?.text || '';
+  if (!reply.trim()) throw new Error('SYVORA server returned an empty response.');
+  return reply.trim();
+}
+
+function formatAIText(text) {
+  // Light markdown-ish → simple HTML
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/&lt;b&gt;/g, '<b>').replace(/&lt;\/b&gt;/g, '</b>')
+    .replace(/&lt;br\s*\/?&gt;/g, '<br>')
+    .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+    .replace(/\n/g, '<br>');
+}
+
+async function sendMessage(text) {
+  const t = (text || '').trim();
+  if (!t) return;
+  addMessage(t, true);
+  chatInput.value = '';
+  chatInput.style.height = 'auto';
+  typing.classList.add('show');
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  try {
+    if (getServerUrl() && getAccessCode()) {
+      const reply = await callGemini(t);
+      typing.classList.remove('show');
+      if (reply) {
+        chatTurns.push(
+          { role: 'user', parts: [{ text: t }] },
+          { role: 'model', parts: [{ text: reply }] }
+        );
+        if (chatTurns.length > MAX_CONTEXT_TURNS) chatTurns.splice(0, chatTurns.length - MAX_CONTEXT_TURNS);
+        addMessage(formatAIText(reply), false);
+      } else {
+        const fallbackReply = getAIResponse(t);
+        chatTurns.push(
+          { role: 'user', parts: [{ text: t }] },
+          { role: 'model', parts: [{ text: fallbackReply.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '') }] }
+        );
+        if (chatTurns.length > MAX_CONTEXT_TURNS) chatTurns.splice(0, chatTurns.length - MAX_CONTEXT_TURNS);
+        addMessage(fallbackReply, false);
+      }
+    } else {
+      setTimeout(() => {
+        typing.classList.remove('show');
+        const fallbackReply = getAIResponse(t);
+        chatTurns.push(
+          { role: 'user', parts: [{ text: t }] },
+          { role: 'model', parts: [{ text: fallbackReply.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '') }] }
+        );
+        if (chatTurns.length > MAX_CONTEXT_TURNS) chatTurns.splice(0, chatTurns.length - MAX_CONTEXT_TURNS);
+        addMessage(fallbackReply, false);
+      }, 500 + Math.random() * 400);
+    }
+  } catch (e) {
+    console.error(e);
+    typing.classList.remove('show');
+    const detail = (e && e.message) ? e.message.slice(0, 180) : 'unknown error';
+    const fallbackReply = getAIResponse(t);
+    chatTurns.push(
+      { role: 'user', parts: [{ text: t }] },
+      { role: 'model', parts: [{ text: fallbackReply.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '') }] }
+    );
+    if (chatTurns.length > MAX_CONTEXT_TURNS) chatTurns.splice(0, chatTurns.length - MAX_CONTEXT_TURNS);
+    addMessage(`Couldn't reach Gemini right now.<br><small style="opacity:.75">${escapeHtml(detail)}</small><br><br>Using built-in helper instead.<br><br>${fallbackReply}`, false);
+    toast('Gemini error — see message for details');
+  }
+}
+
+// SYVORA Netlify connection UI — the Gemini key never enters this browser.
+(function initServerConnectionUI() {
+  const codeInput = document.getElementById('accessCodeInput');
+  const status = document.getElementById('keyStatus');
+  const banner = document.getElementById('connectBanner');
+  const homeStatus = document.getElementById('homeKeyStatus');
+  function setStatus(el, message, color = 'var(--muted)') {
+    if (!el) return;
+    el.textContent = message;
+    el.style.color = color;
+  }
+  function configured() { return Boolean(getAccessCode()); }
+  function refresh() {
+    if (codeInput) codeInput.value = '';
+    if (banner) banner.style.display = configured() ? 'none' : 'block';
+    setStatus(status, configured() ? '✓ SYVORA access code saved on this device. Test the connection.' : 'Enter your SYVORA access code to connect this device.');
+    setStatus(homeStatus, configured() ? '✓ This device has SYVORA connection details saved.' : 'Connection not configured on this device yet.', configured() ? '#34d399' : 'var(--muted)');
+  }
+  document.getElementById('saveConnectionBtn')?.addEventListener('click', () => {
+    const code = (codeInput?.value || '').trim();
+    if (!code) { setStatus(status, 'Enter your SYVORA access code first.', '#fbbf24'); return; }
+    localStorage.setItem(SYVORA_ACCESS_KEY, code);
+    codeInput.value = '';
+    refresh();
+    toast('SYVORA access code saved on this device');
+  });
+  document.getElementById('clearConnectionBtn')?.addEventListener('click', () => {
+    localStorage.removeItem(SYVORA_ACCESS_KEY);
+    refresh();
+    setStatus(status, 'Disconnected from SYVORA.');
+    toast('Connection cleared');
+  });
+  document.getElementById('testConnectionBtn')?.addEventListener('click', async () => {
+    const code = (codeInput?.value || getAccessCode()).trim();
+    if (!code) { setStatus(status, 'Enter your SYVORA access code first.', '#fbbf24'); return; }
+    const btn = document.getElementById('testConnectionBtn');
+    btn.disabled = true; btn.textContent = 'Testing…';
+    try {
+      const res = await fetch(getChatEndpoint(), { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${code}` }, body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'Reply with exactly: SYVORA connected successfully.' }] }], generationConfig: { maxOutputTokens: 30 } }) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || `Server returned ${res.status}`);
+      localStorage.setItem(SYVORA_ACCESS_KEY, code);
+      codeInput.value = '';
+      refresh();
+      setStatus(status, '✓ SYVORA server and Gemini are connected!', '#34d399');
+      toast('SYVORA connected successfully ✨');
+    } catch (err) { setStatus(status, `✕ ${String(err.message || err).slice(0, 200)}`, '#f87171'); }
+    finally { btn.disabled = false; btn.textContent = 'Test connection'; }
+  });
+  refresh();
+})();
+
+document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();sendMessage(chatInput.value)});
+chatInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(chatInput.value)}});
+chatInput.addEventListener('input',()=>{chatInput.style.height='auto';chatInput.style.height=Math.min(chatInput.scrollHeight,140)+'px'});
+
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>sendMessage(c.dataset.q)));
+
+document.getElementById('homeForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const val=document.getElementById('homePrompt').value.trim();
+  if(!val){toast('Type a question first ✨');return}
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.nav button[data-page="chat"]').classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-chat').classList.add('active');
+  document.getElementById('homePrompt').value='';
+  setTimeout(()=>sendMessage(val),150);
+});
+
+document.querySelectorAll('.shortcut').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.nav button[data-page="chat"]').classList.add('active');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-chat').classList.add('active');
+    setTimeout(()=>sendMessage(btn.dataset.prompt),150);
+  });
+});
+</script>
+</body>
+</html>
